@@ -20,10 +20,10 @@ const extension$ = new Rx.Subject();
 
 // Create Observable
 const deploy$ = extension$
-  .mergeMap(o => new BundleObservable(o))
-  .mergeMap(o => new CopyQEXT(o))
-  .mergeMap(o => new ZipFiles(o))
-  .mergeMap(o => new DeployObservable(o))
+  .switchMap(o => new BundleObservable(o))
+  .switchMap(o => new CopyQEXT(o))
+  .switchMap(o => new ZipFiles(o))
+  .switchMap(o => new DeployObservable(o))
   .publish();
 
 deploy$.connect();
@@ -85,10 +85,13 @@ function CopyQEXT(extensionName) {
   return Rx.Observable.create(observer => {
     const readStream = fs.createReadStream('./src/index.qext');
     const writeStream = fs.createWriteStream(`./dist/${extensionName}/${extensionName}.qext`);
-    readStream.pipe(writeStream);
+    const stream = readStream.pipe(writeStream);
 
-    observer.next(extensionName);
-    observer.complete();
+    stream.on("finish", function() {
+      observer.next(chartName);
+      observer.complete();
+    });
+
   })
 }
 
