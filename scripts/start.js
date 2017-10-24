@@ -80,7 +80,7 @@ function BundleObservable(extensionName) {
 }
 
 
-/* Copy QEXt file and rename to input */
+/* Copy QEXT file and rename to input */
 function CopyQEXT(extensionName) {
   return Rx.Observable.create(observer => {
     const readStream = fs.createReadStream('./src/index.qext');
@@ -88,7 +88,7 @@ function CopyQEXT(extensionName) {
     const stream = readStream.pipe(writeStream);
 
     stream.on("finish", function() {
-      observer.next(chartName);
+      observer.next(extensionName);
       observer.complete();
     });
 
