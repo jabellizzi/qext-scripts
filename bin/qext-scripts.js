@@ -15,6 +15,7 @@ program
   .parse(process.argv);
 
 if(program.bundle) childProcess.fork(path.resolve(__dirname, '../scripts/build.js'));
+else if(program.deploy) childProcess.fork(path.resolve(__dirname, '../scripts/deploy.js'));
   
 
 
