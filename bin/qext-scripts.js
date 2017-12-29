@@ -16,4 +16,3 @@ program
 if(program.bundle) childProcess.fork(path.resolve(__dirname, '../scripts/build.js'));
 else if(program.deploy) childProcess.fork(path.resolve(__dirname, '../scripts/deploy.js'));
 else if(program.watch) childProcess.fork(path.resolve(__dirname, '../scripts/watch.js'));
-  
